@@ -17,9 +17,9 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title');
             $table->dateTime('dateline');
-            $table->text('note');
-            $table->boolean('is_completed');
-            $table->integer('progress');
+            $table->boolean('is_completed')->default(0);
+            $table->integer('progress')->default(0);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
