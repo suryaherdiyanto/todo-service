@@ -11,6 +11,26 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', function($api) {
+
+    $api->group(['namespace' => 'App\Http\Controllers\Api\V1'], function($api) {
+
+        $api->group(['prefix' => 'user'], function($api) {
+
+            $api->post('auth', 'AuthController@login');
+            $api->post('logout', 'AuthController@logout');
+            $api->post('register', 'UserController@register');
+            
+            $api->get('me', 'AuthController@me');
+
+            
+        });
+
+        $api->group(['middleware' => 'auth'], function($api) {
+        });
+
+    });
+
 });

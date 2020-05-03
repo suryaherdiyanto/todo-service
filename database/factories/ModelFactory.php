@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
+use App\Profile;
 use Faker\Generator as Faker;
 
 /*
@@ -18,7 +19,19 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
         'email' => $faker->email,
+        'password' => app('hash')->make('123123'),
+        'is_verified' => 0,
+    ];
+});
+
+$factory->define(Profile::class, function(Faker $faker) {
+    return [
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'phone_number' => $faker->phoneNumber,
+        'country' => $faker->country,
+        'state' => $faker->state,
+        'address' => $faker->address
     ];
 });
