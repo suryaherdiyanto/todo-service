@@ -21,6 +21,7 @@ class AuthenticateTest extends TestCase
             ->seeJson([
                 'status' => 'ok'
             ]);
+        $this->seeStatusCode(200);
     }
 
     public function testGetAuthenticated()
@@ -35,6 +36,7 @@ class AuthenticateTest extends TestCase
                     'profile' => $user->profile
                 ]
             ]);
+        $this->seeStatusCode(200);
     }
 
     public function testRegisterUser()
@@ -46,6 +48,30 @@ class AuthenticateTest extends TestCase
                 'status' => 'ok'
             ]);
         $this->seeInDatabase('users', $user->toArray());
+        $this->seeStatusCode(201);
+    }
+
+    public function testRegisterValidation()
+    {
+        $data = [
+            'email' => '123',
+            'password' => '123123'
+        ];
+
+        $this->json('post', '/api/user/register', $data)
+            ->seeJson([
+                'message' => 'Error sending request'
+            ])
+            ->seeJsonStructure([
+                'debug',
+                'errors' => [
+                    'email',
+                    'password'
+                ],
+                'message',
+                'status_code'
+            ]);
+        $this->seeStatusCode(422);
     }
 
     // public function testLogout()

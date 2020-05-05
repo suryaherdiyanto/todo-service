@@ -11,22 +11,28 @@ class Task extends Model {
         'deadline',
         'note',
         'is_completed',
-        'progress'
+        'progress',
+        'user_id'
     ];
 
     protected $dates = ['deadline'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function subtasks()
     {
         return $this->hasMany(SubTask::class);
     }
 
-    public function isCompleted(): boolean 
+    public function isCompleted(): bool 
     {
-        return $this->is_completed ?? false;
+        return $this->is_completed == 1 ? true : false;
     }
 
-    public function hasSubtask(): boolean 
+    public function hasSubtask(): bool 
     {
         if ($this->subtasks->count() === 0) {
             return false;

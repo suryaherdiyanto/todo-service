@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use App\Http\Controllers\Controller;
 use App\User;
 use App\Profile;
 use Validator;
@@ -14,7 +15,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'email' => 'string|max:100|unique:users',
+            'email' => 'string|email|max:100|unique:users',
             'password' => 'string|max:100|confirmed'
         ]);
 
@@ -34,6 +35,6 @@ class UserController extends Controller
             'status' => 'ok',
             'message' => 'Register successfully!',
             'user' => $user
-        ]);
+        ], 201);
     }
 }

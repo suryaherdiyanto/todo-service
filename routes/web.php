@@ -24,11 +24,11 @@ $api->version('v1', function($api) {
             $api->post('register', 'UserController@register');
             
             $api->get('me', 'AuthController@me');
-
-            
         });
 
-        $api->group(['middleware' => 'auth'], function($api) {
+        $api->group(['prefix' => 'tasks'], function($api) {
+            $api->get('/', 'TaskController@index');
+            $api->get('/{id}', 'TaskController@show');
         });
 
     });
