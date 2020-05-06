@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "229e473fe4ab6ae6d01797ec0d7a52a1",
+    "content-hash": "4cf70367132ddfc35d5e89f329889197",
     "packages": [
         {
             "name": "brick/math",
@@ -1237,16 +1237,16 @@
         },
         {
             "name": "illuminate/mail",
-            "version": "v7.9.2",
+            "version": "v7.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/mail.git",
-                "reference": "aeb6814ca20a0744e219997ed61ef8807b65eab0"
+                "reference": "765873832adb9e10cb211be65c1663fff9de6296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/mail/zipball/aeb6814ca20a0744e219997ed61ef8807b65eab0",
-                "reference": "aeb6814ca20a0744e219997ed61ef8807b65eab0",
+                "url": "https://api.github.com/repos/illuminate/mail/zipball/765873832adb9e10cb211be65c1663fff9de6296",
+                "reference": "765873832adb9e10cb211be65c1663fff9de6296",
                 "shasum": ""
             },
             "require": {
@@ -1288,7 +1288,7 @@
             ],
             "description": "The Illuminate Mail package.",
             "homepage": "https://laravel.com",
-            "time": "2020-04-26T09:26:55+00:00"
+            "time": "2020-05-01T01:17:45+00:00"
         },
         {
             "name": "illuminate/pagination",
