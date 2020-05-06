@@ -32,7 +32,13 @@ class TaskController extends Controller
         }
 
         if ($request->filled('q')) {
-            $task = $task->where('q', '%like%', $request->q);
+            $task = $task->where('title', 'like', '%'.$request->q.'%');
+        }
+
+        if ($request->filled('user_id')) {
+            $task = $task->whereHas('user', function($q) use($request) {
+                $q->where('id', $request->user_id);
+            });
         }
 
         return $this->response->collection($task->get(), new TaskTransformer);

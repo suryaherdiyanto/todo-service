@@ -18,7 +18,7 @@ class CreateProfilesTable extends Migration
             $table->string('first_name', 50);
             $table->string('last_name', 50);
             $table->string('phone_number', 25);
-            $table->string('country', 30)->nullable();
+            $table->string('country', 50)->nullable();
             $table->string('state', 30)->nullable();
             $table->text('address')->nullable();
             $table->bigInteger('user_id')->unsigned();
