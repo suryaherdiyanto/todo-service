@@ -5,6 +5,7 @@
 use App\User;
 use App\Profile;
 use App\Task;
+use App\SubTask;
 use Faker\Generator as Faker;
 
 /*
@@ -45,5 +46,13 @@ $factory->define(Task::class, function(Faker $faker) {
         'is_completed' => $faker->randomElement([0, 1]),
         'progress' => $faker->randomNumber(2),
         'user_id' => factory(User::class)->create()->id
+    ];
+});
+
+$factory->define(SubTask::class, function(Faker $faker) {
+    return [
+        'title' => $faker->word,
+        'is_completed' => $faker->randomElement([0, 1]),
+        'task_id' => factory(Task::class)->create()->id
     ];
 });

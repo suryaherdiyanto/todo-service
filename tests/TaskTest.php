@@ -91,4 +91,57 @@ class TaskTest extends TestCase {
         $this->seeStatusCode(200);
     }
 
+    public function testCreateTask()
+    {
+        $user = factory(App\User::class)->create();
+        $task = factory(App\Task::class)->make([
+            'user_id' => $user->id
+        ]);
+
+        $this->actingAs($user)
+            ->json('post', '/api/tasks', $task->toArray())
+            ->seeJson([
+                'status' => 'ok',
+                'message' => 'Task has been created!'
+            ]);
+        $this->seeStatusCode(201);
+        $this->seeInDatabase('tasks', $task->toArray());
+    }
+
+    public function testUpdateTask()
+    {
+        $user = factory(App\User::class)->create();
+        $task = factory(App\Task::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $taskUpdateTo = factory(App\Task::class)->make([
+            'user_id' => $user->id
+        ]);
+
+        $this->actingAs($user)
+            ->json('put', '/api/tasks/'.$task->id.'/update', $taskUpdateTo->toArray())
+            ->seeJson([
+                'status' => 'ok'
+            ]);
+        $this->seeStatusCode(200);
+        $this->seeInDatabase('tasks', $taskUpdateTo->toArray());
+    }
+
+    public function testDeleteTaskWithoutSubTask()
+    {
+        $user = factory(App\User::class)->create();
+        $task = factory(App\Task::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->actingAs($user)
+            ->json('delete', '/api/tasks/'.$task->id.'/delete', $task->toArray())
+            ->seeJson([
+                'status' => 'ok'
+            ]);
+        $this->seeStatusCode(200);
+        $this->notSeeInDatabase('tasks', $task->toArray());
+    }
+
 }

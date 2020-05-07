@@ -7,6 +7,7 @@ use App\Task;
 use App\Transformers\TaskTransformer;
 use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
+use Dingo\Api\Exception\StoreResourceFailedException;
 use Validator;
 
 class TaskController extends Controller
@@ -47,5 +48,58 @@ class TaskController extends Controller
     public function show($id)
     {
         return $this->response->item(Task::findOrFail($id), new TaskTransformer());
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        validateRequest($data, [
+            'title'     => 'required|string|max:50',
+            'deadline'  => 'required'
+        ]);
+
+        $task = Task::create($data);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Task has been created!',
+            'data' => $task
+        ], 201);
+    }
+
+    public function update($id, Request $request)
+    {
+        $data = $request->all();
+        validateRequest($data, [
+            'title' => 'required|string|max:50',
+            'deadline' => 'required'
+        ]);
+
+        $task = Task::find($id)->update($data);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Task has been updated!',
+            'data' => $task
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $task = Task::with('subtasks')->findOrFail($id);
+    
+        if ($task->subtasks->count() > 0) {
+            foreach ($$task->subtasks as $item) {
+                $item->delete();
+            }        
+        }
+
+        $task->delete();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Task has been deleted!'
+        ]);
+
     }
 }

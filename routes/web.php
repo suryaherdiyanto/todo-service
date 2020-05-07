@@ -28,6 +28,9 @@ $api->version('v1', function($api) {
 
         $api->group(['prefix' => 'tasks'], function($api) {
             $api->get('/', 'TaskController@index');
+            $api->post('/', 'TaskController@store');
+            $api->put('/{id}/update', 'TaskController@update');
+            $api->delete('/{id}/delete', 'TaskController@delete');
             $api->get('/{id}', 'TaskController@show');
         });
 
