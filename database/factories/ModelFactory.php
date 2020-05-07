@@ -51,7 +51,7 @@ $factory->define(Task::class, function(Faker $faker) {
 
 $factory->define(SubTask::class, function(Faker $faker) {
     return [
-        'title' => $faker->word,
+        'name' => $faker->word,
         'is_completed' => $faker->randomElement([0, 1]),
         'task_id' => factory(Task::class)->create()->id
     ];

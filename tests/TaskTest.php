@@ -22,18 +22,24 @@ class TaskTest extends TestCase {
 
     public function testGetTasks()
     {
-        $tasks = factory(Task::class, 5)->create();
+        $transformer = new TaskTransformer();
+
+        $taskTransformed = [];
+        $tasks = factory(Task::class, 5)->create()->map(function($task) use($transformer) {
+            return $transformer->transform($task);
+        });
         $user = factory(App\User::class)->create();
 
         $this->actingAs($user)
             ->json('get', '/api/tasks')
+            ->seeJsonEquals([
+                'data' => $tasks
+            ])
             ->seeJsonStructure([
                 'data' => [
                     '*' => $this->structure
                 ]
             ]);
-
-        $this->assertEquals(5, count($tasks));
         $this->seeStatusCode(200);
     }
 

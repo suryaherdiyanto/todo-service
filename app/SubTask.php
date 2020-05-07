@@ -11,7 +11,7 @@ class SubTask extends Model {
         'is_completed',
     ];
 
-    public function isCompleted(): boolean 
+    public function isCompleted(): bool 
     {
         return $this->is_completed ?? false;
     }
