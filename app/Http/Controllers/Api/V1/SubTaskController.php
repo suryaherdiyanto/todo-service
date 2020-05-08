@@ -34,12 +34,39 @@ class SubTaskController extends Controller
             'name' => 'required|string|max:50'
         ]);
 
-        $subtask = SubTask::create($request->all());
+        $subtask = SubTask::create(['name' => $data['name']]);
+        unset($data);
 
         return response()->json([
             'status' => 'ok',
             'message' => 'Subtask created!',
             'data' => $subtask->toArray()
         ], 201);
+    }
+
+    public function update($id, Request $request)
+    {
+        $data = $request->all();
+        validateRequest($data, [
+            'name' => 'required|string|max:50'
+        ]);
+
+        $subtask = SubTask::findOrFail($id)->update($request->only(['name', 'is_completed']));
+        unset($data);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Subtask updated!'
+        ], 200);
+    }
+
+    public function delete($id, Request $request)
+    {
+        SubTask::findOrFail($id)->delete();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Subtask updated!'
+        ], 200);
     }
 }

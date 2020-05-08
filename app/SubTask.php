@@ -8,7 +8,7 @@ class SubTask extends Model {
 
     protected $fillable = [
         'name',
-        'is_completed',
+        'is_completed'
     ];
 
     public function isCompleted(): bool 

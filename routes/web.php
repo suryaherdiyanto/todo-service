@@ -34,6 +34,8 @@ $api->version('v1', function($api) {
             $api->get('/{id}', 'TaskController@show');
 
             $api->get('/{task_id}/subtasks', 'SubTaskController@index');
+            $api->put('/subtasks/{id}/update', 'SubTaskController@update');
+            $api->delete('/subtasks/{id}/delete', 'SubTaskController@delete');
         });
 
     });

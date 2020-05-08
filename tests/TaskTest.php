@@ -20,6 +20,12 @@ class TaskTest extends TestCase {
         'updated_at'
     ];
 
+    public function testUnauthorizeIfUnauthenticated()
+    {
+        $this->json('get', '/api/tasks');
+        $this->seeStatusCode(401);
+    }
+
     public function testGetTasks()
     {
         $transformer = new TaskTransformer();
