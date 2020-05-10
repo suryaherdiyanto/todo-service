@@ -22,6 +22,7 @@ $api->version('v1', function($api) {
             $api->post('auth', 'AuthController@login');
             $api->post('logout', 'AuthController@logout');
             $api->post('register', 'UserController@register');
+            $api->put('verified/{user_id}', 'UserController@verifiedUser');
             
             $api->get('me', 'AuthController@me');
         });

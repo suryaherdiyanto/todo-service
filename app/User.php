@@ -36,6 +36,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasOne(Profile::class);
     }
 
+    public function isVerified(): bool 
+    {
+        return $this->is_verified == 1 ? true : false;
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
