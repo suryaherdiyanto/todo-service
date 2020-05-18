@@ -71,8 +71,8 @@ class TaskController extends Controller
     {
         $data = $request->all();
         validateRequest($data, [
-            'title' => 'required|string|max:50',
-            'deadline' => 'required'
+            'title' => 'nullable|string|max:50',
+            'deadline' => 'nullable'
         ]);
 
         $task = Task::find($id)->update($data);

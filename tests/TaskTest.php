@@ -120,6 +120,22 @@ class TaskTest extends TestCase {
         $this->seeInDatabase('tasks', $task->toArray());
     }
 
+    public function testCreateValidationTask()
+    {
+        $data = [
+            'note' => 'abcd'
+        ];
+        $user = factory(App\User::class)->create();
+
+        $this->actingAs($user)
+            ->json('post', '/api/tasks', $data)
+            ->seeJson([
+                'message' => 'Error sending request'
+            ]);
+        $this->seeStatusCode(422);
+
+    }
+
     public function testUpdateTask()
     {
         $user = factory(App\User::class)->create();

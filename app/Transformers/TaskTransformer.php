@@ -18,6 +18,7 @@ class TaskTransformer extends TransformerAbstract {
             'is_completed' => $task->isCompleted(),
             'progress_integer' => $task->progress,
             'progress_percentage' => $task->progressInPercentage(),
+            'note' => $task->note,
             'created_at' => $task->created_at,
             'updated_at' => $task->updated_at
         ];
