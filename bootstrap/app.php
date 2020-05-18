@@ -78,6 +78,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Check::class
 ]);
 
 /*
