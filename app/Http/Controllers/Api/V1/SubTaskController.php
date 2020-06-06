@@ -20,28 +20,31 @@ class SubTaskController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index($task_id, Request $request)
+    public function index($taskId, Request $request)
     {
-        $task = Task::with('subtasks')->orderBy('created_at')->findOrFail($task_id);
+        $task = Task::with('subtasks')->orderBy('created_at')->findOrFail($taskId);
         
         return $this->response->collection($task->subtasks, new SubTaskTransformer);
     }
 
-    public function store(Request $request)
+    public function store($taskId, Request $request)
     {
         $data = $request->all();
         validateRequest($data, [
-            'name' => 'required|string|max:50'
+            'name' => 'required|string|max:50',
+            'task_id' => 'required|integer'
         ]);
 
-        $subtask = SubTask::create(['name' => $data['name']]);
+        if (!isset($data['is_completed'])) {
+            $data['is_completed'] = 0;
+        }
+
+        $subtask = SubTask::create($data);
         unset($data);
 
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'Subtask created!',
-            'data' => $subtask->toArray()
-        ], 201);
+        return $this->response->item($subtask, new SubTaskTransformer)
+                    ->setMeta(['status' => 'ok', 'message' => 'Subtask created!'])
+                    ->setStatusCode(201);
     }
 
     public function update($id, Request $request)

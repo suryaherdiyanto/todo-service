@@ -47,6 +47,31 @@ class SubTaskTest extends TestCase {
         $this->seeStatusCode(200);
     }
 
+    public function testCreateSubtask()
+    {
+        $user = factory(App\User::class)->create();
+        $task = factory(App\Task::class)->create([
+            'user_id' => $user->id
+        ]);
+        $subtask = factory(App\SubTask::class)->make([
+            'task_id' => $task->id
+        ]);
+
+        $transformer = new SubTaskTransformer();
+
+        $this->actingAs($user)
+            ->json('post', '/api/tasks/'.$task->id.'/subtasks', $subtask->toArray())
+            ->seeJson([
+                'meta' => [
+                    'status' => 'ok',
+                    'message' => 'Subtask created!'
+                ]
+            ]);
+        
+        $this->seeStatusCode(201);
+        $this->seeInDatabase('sub_tasks', $subtask->toArray());
+    }
+
     public function testEditSubTask()
     {
         $user = factory(App\User::class)->create();

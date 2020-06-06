@@ -30,15 +30,15 @@ $api->version('v1', function($api) {
 
         });
 
-        $api->group(['prefix' => 'tasks', 'middleware' => 'jwt.auth'], function($api) {
+        $api->group(['prefix' => 'tasks', 'middleware' => 'auth'], function($api) {
             $api->get('/', 'TaskController@index');
             $api->post('/', 'TaskController@store');
             $api->put('/{id}/update', 'TaskController@update');
             $api->delete('/{id}/delete', 'TaskController@delete');
             $api->get('/{id}', 'TaskController@show');
 
-            $api->get('/{task_id}/subtasks', 'SubTaskController@index');
-            $api->post('/{task_id}/subtasks', 'SubTaskController@store');
+            $api->get('/{taskId}/subtasks', 'SubTaskController@index');
+            $api->post('/{taskId}/subtasks', 'SubTaskController@store');
             $api->put('/subtasks/{id}/update', 'SubTaskController@update');
             $api->delete('/subtasks/{id}/delete', 'SubTaskController@delete');
         });
