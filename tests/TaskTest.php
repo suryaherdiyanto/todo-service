@@ -113,8 +113,10 @@ class TaskTest extends TestCase {
         $this->actingAs($user)
             ->json('post', '/api/tasks', $task->toArray())
             ->seeJson([
-                'status' => 'ok',
-                'message' => 'Task has been created!'
+                'meta' => [
+                    'status' => 'ok',
+                    'message' => 'Task has been created!'
+                ]
             ]);
         $this->seeStatusCode(201);
         $this->seeInDatabase('tasks', $task->toArray());

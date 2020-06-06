@@ -60,11 +60,9 @@ class TaskController extends Controller
 
         $task = Task::create($data);
 
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'Task has been created!',
-            'data' => $task
-        ], 201);
+        return $this->response->item($task, new TaskTransformer)
+                    ->setMeta(['status' => 'ok', 'message' => 'Task has been created!'])
+                    ->setStatusCode(201);
     }
 
     public function update($id, Request $request)
